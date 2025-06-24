@@ -1,10 +1,3 @@
-//
-//  README.md
-//  TaskKit
-//
-//  Created by Aman Verma on 24/06/25.
-//
-
 # TaskKit
 
 A Swift package for managing iOS background tasks using the BackgroundTasks framework. TaskKit provides a clean, type-safe API for registering, scheduling, and managing background refresh and processing tasks.
@@ -21,7 +14,7 @@ A Swift package for managing iOS background tasks using the BackgroundTasks fram
 
 ## Requirements
 
-- iOS 13.0+ / tvOS 13.0+ / macOS 10.15+
+- iOS 13.0+ 
 - Swift 6.1+
 - Xcode 15.0+
 
@@ -38,7 +31,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yourusername/TaskKit.git", from: "1.0.0")
+    .package(url: "https://github.com/av-feaster/TaskKit.git", from: "0.0.2")
 ]
 ```
 
@@ -181,9 +174,8 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ## Best Practices
 
 ### 1. Task Intervals
-- Use intervals of 15 minutes or less for refresh tasks
-- Longer intervals may be throttled by iOS
-- The package includes compiler warnings for intervals > 15 minutes
+- iOS may throttle or skip background tasks scheduled too frequently. Use longer intervals for better reliability.
+- The package includes compiler warnings for intervals 
 
 ### 2. Task Duration
 - Keep refresh tasks under 30 seconds
