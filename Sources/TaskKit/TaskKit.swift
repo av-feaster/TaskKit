@@ -22,7 +22,7 @@ public final class TaskKit {
         
         // Check for UIBackgroundModes
         let backgroundModes = Bundle.main.infoDictionary?["UIBackgroundModes"] as? [String] ?? []
-        let requiredBackgroundModes = ["background-processing", "background-fetch"]
+        let requiredBackgroundModes = ["background-processing", "background-fetch","processing", "fetch"]
         
         let missingBackgroundModes = requiredBackgroundModes.filter { !backgroundModes.contains($0) }
         if !missingBackgroundModes.isEmpty {
