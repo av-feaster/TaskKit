@@ -47,13 +47,13 @@ public final class TaskKit {
     // MARK: - Registration
     public func registerRefreshTask(_ config: TaskKitConfiguration,
                                     handler: @escaping @Sendable (BGTask) async -> Bool) {
-        validateTaskIdentifier(config.identifier)
+        
         registrar.registerRefreshTask(config, handler: handler)
     }
     
     public func registerRefreshTask(_ config: TaskKitConfiguration,
                                     perform task: @escaping @Sendable () async -> Bool) {
-        validateTaskIdentifier(config.identifier)
+        
         registrar.registerRefreshTask(config, perform: task)
     }
     
@@ -61,7 +61,7 @@ public final class TaskKit {
                                        requiresNetwork: Bool = true,
                                        requiresExternalPower: Bool = false,
                                        handler: @escaping @Sendable (BGTask) async -> Bool) {
-        validateTaskIdentifier(config.identifier)
+        
         registrar.registerProcessingTask(config,
                                          requiresNetwork: requiresNetwork,
                                          requiresExternalPower: requiresExternalPower,
@@ -72,21 +72,14 @@ public final class TaskKit {
                                        requiresNetwork: Bool = true,
                                        requiresExternalPower: Bool = false,
                                        perform task: @escaping @Sendable () async -> Bool) {
-        validateTaskIdentifier(config.identifier)
+        
         registrar.registerProcessingTask(config,
                                          requiresNetwork: requiresNetwork,
                                          requiresExternalPower: requiresExternalPower,
                                          perform: task)
     }
     
-    private func validateTaskIdentifier(_ identifier: String) {
-#if DEBUG
-        let permittedIdentifiers = Bundle.main.infoDictionary?["BGTaskSchedulerPermittedIdentifiers"] as? [String] ?? []
-        if !permittedIdentifiers.contains(identifier) {
-            TaskLogger.showMissingTaskIdentifier(identifier)
-        }
-#endif
-    }
+
     
     // MARK: - Scheduling
     public func scheduleRefreshTask(config: TaskKitConfiguration) {

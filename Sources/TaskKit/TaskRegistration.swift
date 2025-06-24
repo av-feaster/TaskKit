@@ -53,6 +53,7 @@ internal final class TaskRegistration {
                           requiresNetwork: Bool = true,
                           requiresExternalPower: Bool = false,
                           asyncHandler: @escaping @Sendable (BGTask) async -> Bool) {
+        validateTaskIdentifier(taskID)
         TaskLogger.log("Registering \(type) task: \(taskID)")
         
         taskKit.handlers[taskID] = { task in
@@ -73,6 +74,15 @@ internal final class TaskRegistration {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: taskID, using: nil) { task in
             self.taskKit.handlers[taskID]?(task)
         }
+    }
+    
+    private func validateTaskIdentifier(_ identifier: String) {
+#if DEBUG
+        let permittedIdentifiers = Bundle.main.infoDictionary?["BGTaskSchedulerPermittedIdentifiers"] as? [String] ?? []
+        if !permittedIdentifiers.contains(identifier) {
+            TaskLogger.showMissingTaskIdentifier(identifier)
+        }
+#endif
     }
 #endif
 }
