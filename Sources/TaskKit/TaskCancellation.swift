@@ -24,12 +24,12 @@ internal final class TaskCancellation {
     }
 
     #if DEBUG
-    @MainActor
+    
     func pendingIdentifiers() async -> [String] {
         await withCheckedContinuation { continuation in
             BGTaskScheduler.shared.getPendingTaskRequests { requests in
-                Task { @MainActor in
-                               continuation.resume(returning: requests.map(\.identifier))
+                Task {
+                    continuation.resume(returning: requests.map(\.identifier))
                 }
             }
         }
