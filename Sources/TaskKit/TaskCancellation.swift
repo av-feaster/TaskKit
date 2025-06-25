@@ -22,19 +22,20 @@ internal final class TaskCancellation {
         BGTaskScheduler.shared.cancelAllTaskRequests()
         TaskLogger.log("Cancelled all tasks")
     }
-
-    #if DEBUG
-    
+#if DEBUG
     func pendingIdentifiers() async -> [String] {
         await withCheckedContinuation { continuation in
             BGTaskScheduler.shared.getPendingTaskRequests { requests in
-                Task {
+                DispatchQueue.global(qos: .utility).async {
+                    let ids = requests.map(\.identifier).joined(separator: ", ")
+                    TaskLogger.nsLog("DEBUG - pending BGTasks: \(ids)" as NSString)
                     continuation.resume(returning: requests.map(\.identifier))
                 }
             }
         }
     }
-    #endif
+#endif
+
 #else
     func cancelTask(id: String) {
         TaskLogger.log("BackgroundTasks not available on this platform")

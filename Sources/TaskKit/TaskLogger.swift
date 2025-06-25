@@ -27,6 +27,10 @@ public enum TaskLogger {
         print("✅ [TaskKit] \(message())")
     }
     
+    public static func nsLog(_ message: @autoclosure () -> NSString) {
+        NSLog("[TaskKit] %@", message())
+    }
+    
     @MainActor public static func showSetupTutorial() {
         guard !hasShownSetupTutorial else { return }
         hasShownSetupTutorial = true
