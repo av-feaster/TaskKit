@@ -28,8 +28,10 @@ internal final class TaskCancellation {
     func pendingIdentifiers() async -> [String] {
         await withCheckedContinuation { continuation in
             BGTaskScheduler.shared.getPendingTaskRequests { requests in
-                let ids = requests.map(\.identifier)   // ["com.example.refresh", …]
-                continuation.resume(returning: ids)
+                DispatchQueue.main.async {
+                    let ids = requests.map(\.identifier)   // ["com.example.refresh", …]
+                    continuation.resume(returning: ids)
+                }
             }
         }
     }
